@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TaskList1</string>
+    <string name="menu_add_new_task">Add new task</string>
+</resources>
