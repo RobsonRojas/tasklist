@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +19,17 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private List<String> tasks = new ArrayList<String>();
+    private ListView listView;
+    private ArrayAdapter arrayAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        listView = (ListView) findViewById(R.id.listView);
+        arrayAdapter = new ArrayAdapter(this, R.layout.item_task, R.id.textView, tasks);
+
+        listView.setAdapter(arrayAdapter);
     }
 
     @Override
@@ -43,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 String task = String.valueOf(editText.getText());
 
-                                tasks.add(task);
+                                arrayAdapter.add(task);
 
                                 Log.d("MAIN", "Task added: " + tasks);
                             }
@@ -56,5 +67,15 @@ public class MainActivity extends AppCompatActivity {
 default:
     return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void removeTask(View view) {
+        View parent = (View) view.getParent();
+        TextView task = (TextView)parent.findViewById(R.id.textView);
+        String taskText = String.valueOf(task.getText());
+
+        Log.d("MAIN",taskText);
+        arrayAdapter.remove(taskText);
+        arrayAdapter.notifyDataSetChanged();
     }
 }
